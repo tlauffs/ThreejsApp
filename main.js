@@ -26,7 +26,7 @@ camera.rotateX(-0.45);
 
 const loader = new GLTFLoader();
 loader.load(
-  "./models/room.gltf",
+  "./public/models/room.gltf",
   function (gltf) {
     let room = gltf.scene;
     room.position.set(1, 0, 0);
