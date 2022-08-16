@@ -55,7 +55,7 @@ const light = new THREE.AmbientLight(0x2b4459, 1);
 scene.add(light);
 
 
-const directionLight = new THREE.DirectionalLight("#b6ccf0", 1);
+const directionLight = new THREE.DirectionalLight("#f0ab94", 1);
 directionLight.castShadow = true;
 directionLight.shadow.mapSize.width = 600;
 directionLight.shadow.mapSize.height = 600;
@@ -67,7 +67,7 @@ scene.add(directionLight);
 scene.add(directionLight.target);
 
 const intensity = 0.7;
-const rectLight = new THREE.PointLight( "#f59352", intensity );
+const rectLight = new THREE.PointLight( "#5cd3db", intensity );
 rectLight.position.set( 1 , 2, -2);
 scene.add( rectLight );
 
