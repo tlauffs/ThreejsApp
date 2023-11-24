@@ -1,6 +1,7 @@
 import "./style.css";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PointLightHelper, RectAreaLight } from "three";
 import { RectAreaLightHelper }  from "three/examples/jsm/helpers/RectAreaLightHelper.js";
 
@@ -35,7 +36,9 @@ loader.load(
   "/models/room.gltf",
   function (gltf) {
     let room = gltf.scene;
-    room.position.set(1, 0, 0);
+    room.position.set(0, -2, 0);
+    const scale = calculateScaleFactor();
+    room.scale.set(scale, scale, scale)
     scene.add(room);
     room.traverse(function (child) {
       if (child.isMesh) {
@@ -51,9 +54,15 @@ loader.load(
   }
 );
 
+function calculateScaleFactor() {
+  const windowWidth = window.innerWidth;
+  let scaleFactor = windowWidth / 700;
+  scaleFactor = Math.min(Math.max(scaleFactor, 0.25), 1.25);
+  return scaleFactor;
+}
+
 const light = new THREE.AmbientLight(0x2b4459, 1);
 scene.add(light);
-
 
 const directionLight = new THREE.DirectionalLight("#f0ab94", 1);
 directionLight.castShadow = true;
@@ -72,14 +81,29 @@ rectLight.position.set( 1 , 2, -2);
 scene.add( rectLight );
 
 function animate() {
+  /*
   camera.position.setX(1.5 + 3 * mouse.x);
   camera.position.setY(9 - mouse.y);
+  */
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
 
 animate();
 
+const controls = new OrbitControls( camera, renderer.domElement );
+controls.panSpeed = 0.5;
+controls.rotateSpeed = 0.25;
+controls.maxDistance = 25;
+controls.enableDamping = true;
+controls.dampingFactor = 0.5;
+controls.minAzimuthAngle = -Math.PI / 3;
+controls.maxAzimuthAngle = Math.PI /4;
+controls.minPolarAngle = Math.PI /4;
+controls.maxPolarAngle = Math.PI / 2;
+
+/*
+# Old controls replaced with orbit controls 
 window.addEventListener("resize", onWindowResize, false);
 document.addEventListener("wheel", onMouseWheel, false);
 document.addEventListener("mousemove", onMouseMove, false);
@@ -98,6 +122,7 @@ function onMouseMove(event) {
 function onMouseWheel(event) {
   camera.position.z += event.deltaY * 0.01;
 }
+*/
 
 var colorInput = document.getElementById("colorpicker");
 colorInput.addEventListener(
